@@ -1,0 +1,31 @@
+@model IEnumerable<Club>
+
+@{
+    ViewData["Title"] = "Clubs";
+}
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            @foreach(Club club in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top" src="@club.Image" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-text">@club.Title</h4>
+                            <p class="card-text">@club.Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Club" asp-action="Detail" asp-route-id="@club.Id">View</a>
+                                    <a class="btn btn-sm btn-secondary" asp-controller="Club" asp-action="Edit" asp-route-id="@club.Id">Edit</a>
+                                </div>
+                                <small class="text-muted">@club.ClubCategory</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

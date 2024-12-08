@@ -1,0 +1,31 @@
+@model IEnumerable<Race>;
+
+@{
+    ViewData["Title"] = "Races";
+}
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            @foreach(Race race in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top" src="@race.Image" width="100%" height="225px" alt="Card image cap">
+                        <div class="card-body">
+                            <h4 class="card-text">@race.Title</h4>
+                            <p class="card-text">@race.Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a type="button" class="btn btn-sm btn-outline-secondary" asp-controller="Race" asp-action="Detail" asp-route-id="@race.Id">View</a>
+                                    <a type="button" class="btn btn-sm btn-secondary" asp-controller="Race" asp-action="Edit" asp-route-id="@race.Id">Edit</a>
+                                </div>
+                                <small class="text-muted">@race.RaceCategory</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

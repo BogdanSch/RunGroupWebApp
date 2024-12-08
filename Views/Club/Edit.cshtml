@@ -1,0 +1,64 @@
+﻿@using RunGroupWebApp.Data.Enums
+@using RunGroupWebApp.ViewModels
+
+@model EditClubViewModel;
+@{
+    ViewData["Title"] = $"Edit {Model.Title} club";
+}
+
+<div class="card">
+    <form method="post" asp-action="Edit" enctype="multipart/form-data">
+        <input type="hidden" asp-for="AddressId" id="AddressId" />
+        <input type="hidden" asp-for="URL" id="Url" />
+        <div class="form-row form-group mb-3">
+            <div class="col mb-3">
+                <label asp-for="Title">Your Club Title</label>
+                <input asp-for="Title" class="form-control form-control-lg" placeholder="Your club Title" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label asp-for="Description">Your Club Description</label>
+                <input asp-for="Description" class="form-control form-control-lg" placeholder="Your club Description" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row form-group mb-3">
+            <div class="col">
+                <label asp-for="ClubCategory">Your Club Category</label>
+                <select asp-for="ClubCategory" asp-items="@Html.GetEnumSelectList<ClubCategory>()" class="form-control form-control-lg">
+                    <option>--Select Your Club Category--</option>
+                </select>
+                <span asp-validation-for="ClubCategory" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row form-group mb-3">
+            <div class="col">
+                <label asp-for="Address.Street">Your club Street</label>
+                <input asp-for="Address.Street" class="form-control form-control-lg" placeholder="Your club Street" />
+                <span asp-validation-for="Address.Street" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label asp-for="Address.City">Your club City</label>
+                <input asp-for="Address.City" class="form-control form-control-lg" placeholder="Your club City" />
+                <span asp-validation-for="Address.City" class="text-danger"></span>
+            </div>
+            <div class="col">
+                <label asp-for="Address.Region">Your club Region</label>
+                <input asp-for="Address.Region" class="form-control form-control-lg" placeholder="Your club Region" />
+                <span asp-validation-for="Address.Region" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row form-group mb-3">
+            <div class="col">
+                <label asp-for="Address.Region">Your club Image Preview</label>
+                <input asp-for="Image" type="file" class="form-control form-control-lg" placeholder="Image" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col">
+                <button class="btn btn-block btn-success btn-lg" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
