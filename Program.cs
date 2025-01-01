@@ -1,16 +1,16 @@
-using CloudinaryDotNet;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using RunGroupWebApp.Data;
 using RunGroupWebApp.Helpers;
 using RunGroupWebApp.Interfaces;
+using RunGroupWebApp.Models;
 using RunGroupWebApp.Repository;
 using RunGroupWebApp.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IClubRepository, ClubRepository>();
 builder.Services.AddScoped<IRaceRepository, RaceRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
@@ -21,10 +21,18 @@ string connectionString = builder.Configuration.GetConnectionString("DefaultConn
 builder.Services.AddCors();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(connectionString, serverVersion));
+builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
-var app = builder.Build();
+builder.Services.AddControllersWithViews();
+
+WebApplication app = builder.Build();
+
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
+    await Seed.SeedUsersAndRolesAsync(app);
     Seed.SeedData(app);
 }
 
@@ -41,6 +49,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
