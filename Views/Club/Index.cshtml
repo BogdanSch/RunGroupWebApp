@@ -1,3 +1,4 @@
+@using RunGroupWebApp.Data
 @model IEnumerable<Club>
 
 @{
@@ -6,6 +7,18 @@
 
 <div class="album py-5 bg-light">
     <div class="container">
+        <div class="row">
+            <div class="col">
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">@TempData["Success"]</div>
+                }
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["Error"]</div>
+                }
+            </div>
+        </div>
         <div class="row">
             @foreach(Club club in Model)
             {
@@ -17,8 +30,14 @@
                             <p class="card-text">@club.Description</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a class="btn btn-sm btn-outline-secondary" asp-controller="Club" asp-action="Detail" asp-route-id="@club.Id">View</a>
-                                    <a class="btn btn-sm btn-secondary" asp-controller="Club" asp-action="Edit" asp-route-id="@club.Id">Edit</a>
+                                    <a class="btn btn-sm btn-secondary" asp-controller="Club" asp-action="Detail" asp-route-id="@club.Id">View</a>
+                                    @if(User.Identity.IsAuthenticated && User.IsInRole(UserRoles.Admin))
+                                    {
+                                        <a class="btn btn-sm btn-outline-secondary" asp-controller="Club" asp-action="Edit" asp-route-id="@club.Id">Edit</a>
+                                        <form asp-controller="Club" asp-action="Delete" asp-route-id="@club.Id" method="post">
+                                            <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                                        </form>
+                                    }
                                 </div>
                                 <small class="text-muted">@club.ClubCategory</small>
                             </div>

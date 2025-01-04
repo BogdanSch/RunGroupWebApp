@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
+using RunGroupWebApp.Repository;
 using RunGroupWebApp.Services;
 using RunGroupWebApp.ViewModels;
 
@@ -118,6 +119,29 @@ public class ClubController : Controller
         };
 
         _clubRepository.Update(updatedClub);
+        return RedirectToAction("Index");
+    }
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
+        {
+            Club userClub = await _clubRepository.GetByIdAsyncNoTracking(id);
+
+            if (userClub == null)
+            {
+                TempData["Error"] = "Race not found.";
+                return RedirectToAction("Index");
+            }
+
+            _clubRepository.Delete(userClub);
+            TempData["Success"] = "Race deleted successfully!";
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = $"An error occurred while deleting the race: {ex.Message}";
+        }
+
         return RedirectToAction("Index");
     }
 }

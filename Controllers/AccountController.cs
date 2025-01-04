@@ -54,4 +54,43 @@ public class AccountController : Controller
         TempData["error"] = "Invalid credentials. Please, try again";
         return View(loginViewModel);
     }
+    public IActionResult Register()
+    {
+        RegisterViewModel response = new RegisterViewModel();
+        return View(response);
+    }
+    [HttpPost]
+    public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+    {
+        if (!ModelState.IsValid)
+            return View(registerViewModel);
+
+        AppUser? user = await _userManager.FindByEmailAsync(registerViewModel.EmailAddress);
+
+        if(user != null)
+        {
+            TempData["error"] = "Email address already in use. Please, try again";
+            return View(registerViewModel);
+        }
+
+        AppUser newUser = new AppUser
+        {
+            Email = registerViewModel.EmailAddress,
+            UserName = registerViewModel.UserName,
+        };
+        IdentityResult userResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
+
+        if (userResponse.Succeeded) 
+        {
+            await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+        }
+
+        return RedirectToAction("Index", "Home");
+    }
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await _signInManager.SignOutAsync();
+        return RedirectToAction("Index", "Home");
+    }
 }

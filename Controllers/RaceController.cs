@@ -1,4 +1,5 @@
 ﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
@@ -118,6 +119,29 @@ public class RaceController : Controller
         };
 
         _raceRepository.Update(updatedRace);
+        return RedirectToAction("Index");
+    }
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        try
+        {
+            Race userRace = await _raceRepository.GetByIdAsyncNoTracking(id);
+
+            if (userRace == null)
+            {
+                TempData["Error"] = "Race not found.";
+                return RedirectToAction("Index");
+            }
+
+            _raceRepository.Delete(userRace);
+            TempData["Success"] = "Race deleted successfully!";
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = $"An error occurred while deleting the race: {ex.Message}";
+        }
+
         return RedirectToAction("Index");
     }
 }
