@@ -1,9 +1,7 @@
 ﻿using CloudinaryDotNet.Actions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
-using RunGroupWebApp.Repository;
 using RunGroupWebApp.ViewModels;
 
 namespace RunGroupWebApp.Controllers;
@@ -11,10 +9,12 @@ public class RaceController : Controller
 {
     private readonly IRaceRepository _raceRepository;
     private readonly IPhotoService _photoService;
-    public RaceController(IRaceRepository raceRepository, IPhotoService photoService)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public RaceController(IRaceRepository raceRepository, IPhotoService photoService, IHttpContextAccessor httpContextAccessor)
     {
         _raceRepository = raceRepository;
         _photoService = photoService;
+        _httpContextAccessor = httpContextAccessor;
     }
     public async Task<IActionResult> Index()
     {
@@ -28,7 +28,13 @@ public class RaceController : Controller
     }
     public IActionResult Create()
     {
-        return View();
+
+        string currentUserId = _httpContextAccessor.HttpContext!.User.GetUserId();
+        CreateRaceViewModel createRaceViewModel = new CreateRaceViewModel()
+        {
+            AppUserId = currentUserId
+        };
+        return View(createRaceViewModel);
     }
     [HttpPost]
     public async Task<IActionResult> Create(CreateRaceViewModel raceViewModel)
@@ -47,7 +53,8 @@ public class RaceController : Controller
                     City = raceViewModel.Address.City,
                     Region = raceViewModel.Address.Region,
                 },
-                RaceCategory = raceViewModel.RaceCategory
+                RaceCategory = raceViewModel.RaceCategory,
+                AppUserId = raceViewModel.AppUserId,
             };
             _raceRepository.Add(race);
             return RedirectToAction("Index");
@@ -121,7 +128,7 @@ public class RaceController : Controller
         _raceRepository.Update(updatedRace);
         return RedirectToAction("Index");
     }
-    [HttpPost]
+    [HttpDelete]
     public async Task<IActionResult> Delete(int id)
     {
         try

@@ -18,16 +18,16 @@ public class DashboardRepository : IDashboardRepository
 
     public List<Club> GetAllUserClubs()
     {
-        ClaimsPrincipal? currentUser = _httpContextAccessor.HttpContext?.User;
-        List<Club> result = _context.Clubs.Where(club => club.AppUserId == currentUser.ToString()).ToList();
+        string? currentUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
+        List<Club> result = _context.Clubs.Where(club => club.AppUserId == currentUserId).ToList();
 
         return result;
     }
 
     public List<Race> GetAllUserRaces()
     {
-        ClaimsPrincipal? currentUser = _httpContextAccessor.HttpContext?.User;
-        List<Race> result = _context.Races.Where(race => race.AppUserId == currentUser.ToString()).ToList();
+        string? currentUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
+        List<Race> result = _context.Races.Where(race => race.AppUserId == currentUserId).ToList();
 
         return result;
     }

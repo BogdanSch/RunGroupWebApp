@@ -38,7 +38,8 @@
                     {
                         <div class="d-flex">
                             <a class="btn btn-outline-light me-2" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                            <form asp-controller="Account" asp-action="Logout" method="post">
+                            <a class="btn btn-outline-primary me-2" asp-area="" asp-controller="User" asp-action="Index">Runners</a>
+                            <form asp-controller="Account" asp-action="Logout" method="delete">
                                 <button class="btn btn-primary" type="submit">Logout</button>
                             </form>
                         </div>
