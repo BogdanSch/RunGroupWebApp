@@ -1,4 +1,4 @@
-﻿@using RunGroupWebApp.ViewModels;
+﻿@using RunGroupWebApp.ViewModels.User;
 @model List<UserViewModel>
 
 @{
@@ -11,12 +11,13 @@
             <div class="col">
                 <table class="table table-hover align-items-center table-borderless">
                     <tbody>
-                        @foreach (var user in Model)
+                        @foreach (UserViewModel user in Model)
                         {
                             <tr class="bg-white">
                                 <th scope="row">
                                     <div class="media align-items-center">
-                                        @* <img alt="Image profile avatar" src="@user.ProfileImageUrl" class="avatar"> *@
+                                        <img alt="Image profile avatar" src="@user.ProfileImageUrl" class="avatar">
+                                        <input value="@user.ProfileImageUrl.ToString()"/>
                                         <div class="media-body">
                                             <span class="h6 mb-0">@user.UserName</span>
                                         </div>
@@ -27,10 +28,9 @@
                                         View Profile
                                     </a>
                                 </td>
-
                                 @{
-                                    var mileage = user.Mileage == null ? "?" : user.Mileage.ToString();
-                                    var pace = user.Pace == null ? "?" : user.Mileage.ToString();
+                                    string mileage = user.Mileage.ToString();
+                                    string pace = user.Pace.ToString();
                                 }
                                 <td>@mileage mile at @pace mph</td>
                                 @* <td><i class="icon-location"></i> @user.Location</td> *@

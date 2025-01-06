@@ -12,7 +12,7 @@ using RunGroupWebApp.Data;
 namespace RunGroupWebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250101095945_InitialCreate")]
+    [Migration("20250105185128_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -190,7 +190,7 @@ namespace RunGroupWebApp.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -210,7 +210,7 @@ namespace RunGroupWebApp.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("Mileage")
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
@@ -221,7 +221,7 @@ namespace RunGroupWebApp.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.Property<int?>("Pace")
+                    b.Property<int>("Pace")
                         .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
@@ -232,6 +232,10 @@ namespace RunGroupWebApp.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");
@@ -388,9 +392,7 @@ namespace RunGroupWebApp.Migrations
                 {
                     b.HasOne("RunGroupWebApp.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
                 });

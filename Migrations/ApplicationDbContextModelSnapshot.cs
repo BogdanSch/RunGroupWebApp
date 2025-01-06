@@ -207,7 +207,7 @@ namespace RunGroupWebApp.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("Mileage")
+                    b.Property<int>("Mileage")
                         .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
@@ -218,7 +218,7 @@ namespace RunGroupWebApp.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
 
-                    b.Property<int?>("Pace")
+                    b.Property<int>("Pace")
                         .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
@@ -229,6 +229,10 @@ namespace RunGroupWebApp.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ProfileImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("longtext");

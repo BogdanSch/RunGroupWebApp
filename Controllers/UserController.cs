@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
-using RunGroupWebApp.ViewModels;
+using RunGroupWebApp.ViewModels.User;
 
 namespace RunGroupWebApp.Controllers;
 public class UserController : Controller
@@ -25,24 +25,26 @@ public class UserController : Controller
             {
                 Id = appUser.Id,
                 UserName = appUser.UserName!,
-                Pace = appUser.Pace ?? 0,
-                Mileage = appUser.Mileage ?? 0,
+                Pace = appUser.Pace,
+                Mileage = appUser.Mileage,
+                ProfileImageUrl = appUser.ProfileImageUrl,
             };
             userViewModels.Add(userViewModel);
         }
 
         return View(userViewModels);
     }
-    public async Task<IActionResult> Edit(string id)
+    public async Task<IActionResult> Detail(string id)
     {
         AppUser appUser = await _userRepository.GetUserById(id);
 
-        UserViewModel userViewModel = new()
+        UserDetailViewModel userViewModel = new()
         {
             Id = appUser.Id,
             UserName = appUser.UserName!,
-            Pace = appUser.Pace ?? 0,
-            Mileage = appUser.Mileage ?? 0,
+            Pace = appUser.Pace,
+            Mileage = appUser.Mileage,
+            ProfileImageUrl = appUser.ProfileImageUrl,
         };
 
         return View(userViewModel);
