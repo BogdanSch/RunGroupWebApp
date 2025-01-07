@@ -34,9 +34,6 @@
                                     @if (User.Identity.IsAuthenticated && User.IsInRole(UserRoles.Admin))
                                     {
                                         <a type="button" class="btn btn-sm btn-secondary" asp-controller="Race" asp-action="Edit" asp-route-id="@race.Id">Edit</a>
-                                        <form asp-controller="Race" asp-action="Delete" asp-route-id="@race.Id" method="post">
-                                            <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
-                                        </form>
                                     }
                                 </div>
                                 <small class="text-muted">@race.RaceCategory</small>

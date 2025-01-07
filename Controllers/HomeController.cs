@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using RunGroupWebApp.Helpers;
 using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
 using System.Diagnostics;
@@ -17,7 +18,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        var ipInfo = new IpInfo()
+        var ipInfo = new IPInfo();
         return View();
     }
 

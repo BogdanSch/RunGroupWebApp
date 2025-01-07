@@ -14,9 +14,9 @@
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div class="col">
-             <select asp-for="ClubCategory" asp-items="@Html.GetEnumSelectList<ClubCategory>()" class="form-control form-control-lg">
-                 <option>--Select Your Club Category--</option>
-             </select> 
+             <select asp-for="ClubCategory" asp-items="Html.GetEnumSelectList<ClubCategory>()" class="form-control form-control-lg">
+                 <option value="">--Select Your Club Category--</option>
+             </select>
              <span asp-validation-for="ClubCategory" class="text-danger"></span> 
          </div>
     </div>

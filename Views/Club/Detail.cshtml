@@ -4,6 +4,9 @@
 }
 
 <div class="container">
+    <form asp-controller="Club" asp-action="Delete" asp-route-id="@club.Id" method="post">
+        <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+    </form>
     <h2 class="my-4">
         @Model.Title - Detail
     </h2>

@@ -25,8 +25,8 @@
         <div class="form-row form-group mb-3">
             <div class="col">
                 <label asp-for="ClubCategory">Your Club Category</label>
-                <select asp-for="ClubCategory" asp-items="@Html.GetEnumSelectList<ClubCategory>()" class="form-control form-control-lg">
-                    <option>--Select Your Club Category--</option>
+                <select asp-for="ClubCategory" asp-items="Html.GetEnumSelectList<ClubCategory>()" class="form-control form-control-lg">
+                    <option value="">--Select Your Club Category--</option>
                 </select>
                 <span asp-validation-for="ClubCategory" class="text-danger"></span>
             </div>
