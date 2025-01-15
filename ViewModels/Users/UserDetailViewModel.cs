@@ -1,4 +1,4 @@
-﻿namespace RunGroupWebApp.ViewModels.User;
+﻿namespace RunGroupWebApp.ViewModels.Users;
 
 public class UserDetailViewModel : UserViewModel
 {

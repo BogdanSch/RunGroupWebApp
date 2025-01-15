@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RunGroupWebApp.ViewModels.User;
+namespace RunGroupWebApp.ViewModels.Users;
 
 public class UserViewModel
 {

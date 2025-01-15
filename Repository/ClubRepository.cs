@@ -39,13 +39,15 @@ public class ClubRepository : IClubRepository
     {
         return await _context.Clubs.ToListAsync();
     }
-
     public async Task<IEnumerable<Club>> GetByCity(string city)
     {
-        List<Club> clubs = await _context.Clubs.Include(club => club.Address).Where(club => club.Address.City.Contains(city)).ToListAsync();
-        return clubs;
+        string filteredCity = city.Trim();
+        var cityClubs = await _context.Clubs
+            .Where(club => club.Address.City != null && club.Address.City.Contains(city.Trim()))
+            .Include(club => club.Address)
+            .ToListAsync();
+        return cityClubs;
     }
-
     public async Task<Club> GetByIdAsync(int id)
     {
         return await _context.Clubs.Include(club => club.Address).FirstOrDefaultAsync(club => club.Id == id);

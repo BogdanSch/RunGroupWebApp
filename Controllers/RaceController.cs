@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
-using RunGroupWebApp.ViewModels;
+using RunGroupWebApp.ViewModels.Races;
 
 namespace RunGroupWebApp.Controllers;
 public class RaceController : Controller

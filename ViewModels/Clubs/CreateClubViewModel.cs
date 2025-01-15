@@ -1,15 +1,15 @@
 ﻿using RunGroupWebApp.Data.Enums;
 using RunGroupWebApp.Models;
 
-namespace RunGroupWebApp.ViewModels;
+namespace RunGroupWebApp.ViewModels.Clubs;
 
-public class CreateRaceViewModel
+public class CreateClubViewModel
 {
     public int Id { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
     public Address Address { get; set; }
     public IFormFile Image { get; set; }
-    public RaceCategory RaceCategory { get; set; }
+    public ClubCategory ClubCategory { get; set; }
     public string AppUserId { get; set; }
 }

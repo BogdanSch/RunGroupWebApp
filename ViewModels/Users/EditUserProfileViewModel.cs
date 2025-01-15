@@ -1,6 +1,6 @@
 ﻿using RunGroupWebApp.Models;
 
-namespace RunGroupWebApp.ViewModels.User;
+namespace RunGroupWebApp.ViewModels.Users;
 
 public class EditUserProfileViewModel : UserViewModel
 {

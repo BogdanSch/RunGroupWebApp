@@ -1,7 +1,7 @@
 ﻿using RunGroupWebApp.Data.Enums;
 using RunGroupWebApp.Models;
 
-namespace RunGroupWebApp.ViewModels;
+namespace RunGroupWebApp.ViewModels.Clubs;
 
 public class EditClubViewModel
 {

@@ -27,7 +27,7 @@ public class UserRepository : IUserRepository
     public async Task<IEnumerable<AppUser>> GetAllUsers() => await _context.Users.ToListAsync();
 
     public async Task<AppUser> GetUserById(string id) => await _context.Users.FindAsync(id);
-
+    public async Task<AppUser> GetUserByIdNoTracking(string id) => await _context.Users.Where(user => user.Id == id).AsNoTracking().FirstOrDefaultAsync();
     public bool Save()
     {
         bool saved = _context.SaveChanges() > 0;

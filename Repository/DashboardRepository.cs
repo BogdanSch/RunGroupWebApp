@@ -32,17 +32,4 @@ public class DashboardRepository : IDashboardRepository
 
         return result;
     }
-    public async Task<AppUser> GetUserById(string id) => await _context.Users.FindAsync(id);
-    public async Task<AppUser> GetUserByIdNoTracking(string id) => await _context.Users.Where(user => user.Id == id).AsNoTracking().FirstOrDefaultAsync();
-
-    public bool Update(AppUser user)
-    {
-        _context.Users.Update(user);
-        return Save();
-
-    }
-    public bool Save()
-    {
-        return _context.SaveChanges() > 0;
-    }
 }

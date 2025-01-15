@@ -5,7 +5,7 @@ using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
 using RunGroupWebApp.Repository;
 using RunGroupWebApp.Services;
-using RunGroupWebApp.ViewModels;
+using RunGroupWebApp.ViewModels.Clubs;
 
 namespace RunGroupWebApp.Controllers;
 public class ClubController : Controller

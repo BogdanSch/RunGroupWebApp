@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RunGroupWebApp.Helpers;
 using RunGroupWebApp.Interfaces;
 using RunGroupWebApp.Models;
+using RunGroupWebApp.ViewModels;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace RunGroupWebApp.Controllers;
 public class HomeController : Controller
@@ -16,10 +19,45 @@ public class HomeController : Controller
         _clubRepository = clubRepository;
     }
 
-    public IActionResult Index()
+    public async void MapHomeViewModel(HomeViewModel homeViewModel, IPInfo ipInfo)
     {
-        var ipInfo = new IPInfo();
-        return View();
+        homeViewModel.City = ipInfo.City;
+        homeViewModel.Region = ipInfo.Region;
+
+        if (!string.IsNullOrWhiteSpace(homeViewModel.City)) 
+        {
+            homeViewModel.Clubs = await _clubRepository.GetByCity(homeViewModel.City);
+            return;
+        }
+        homeViewModel.Clubs = new List<Club>();
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        IPInfo ipInfo = new IPInfo();
+
+        HomeViewModel homeViewModel = new HomeViewModel();
+
+        try
+        {
+            string url = "https://ipinfo.io/json?token=b570a81b67a718";
+            string response = await new HttpClient().GetStringAsync(url);
+
+            ipInfo = JsonConvert.DeserializeObject<IPInfo>(response)!;
+
+            RegionInfo regionInfo = new RegionInfo(ipInfo.Country);
+            ipInfo.Country = regionInfo.EnglishName;
+
+            MapHomeViewModel(homeViewModel, ipInfo);
+
+            return View(homeViewModel);
+        }
+        catch(Exception)
+        {
+            homeViewModel.Clubs = new List<Club>();
+        }
+
+        return View(homeViewModel);
     }
 
     public IActionResult Privacy()
