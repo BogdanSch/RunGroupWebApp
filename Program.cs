@@ -18,11 +18,11 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 28));
-string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+//var serverVersion = new MySqlServerVersion(new Version(8, 0, 28));
+string connectionString = builder.Configuration.GetConnectionString("DatabaseConnection")!;
 builder.Services.AddCors();
 
-builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(connectionString, serverVersion));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), mySqlOptions => mySqlOptions.EnableRetryOnFailure()));
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();

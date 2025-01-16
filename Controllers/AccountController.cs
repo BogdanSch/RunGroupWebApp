@@ -19,7 +19,6 @@ public class AccountController : Controller
         _context = context;
     }
 
-
     //By default the GET request
     public IActionResult Login()
     {
@@ -59,6 +58,16 @@ public class AccountController : Controller
         RegisterViewModel response = new RegisterViewModel();
         return View(response);
     }
+    private Address? FindExistingUserAddress(Address address)
+    {
+        Address? existingAddress = _context.Addresses.FirstOrDefault(
+            a => a.Street == address.Street &&
+            a.City == address.City &&
+            a.Region == address.Region
+        );
+
+        return existingAddress;
+    }
     [HttpPost]
     public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
     {
@@ -73,11 +82,23 @@ public class AccountController : Controller
             return View(registerViewModel);
         }
 
+        Address? existingAddress = FindExistingUserAddress(registerViewModel.Address);
+
         AppUser newUser = new AppUser
         {
             Email = registerViewModel.EmailAddress,
             UserName = registerViewModel.UserName,
         };
+
+        if(existingAddress != null)
+        {
+            newUser.Address = existingAddress;
+        }
+        else
+        {
+            newUser.Address = registerViewModel.Address;
+        }
+
         IdentityResult userResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
 
         if (userResponse.Succeeded) 

@@ -19,7 +19,7 @@ public class HomeController : Controller
         _clubRepository = clubRepository;
     }
 
-    public async void MapHomeViewModel(HomeViewModel homeViewModel, IPInfo ipInfo)
+    public async Task MapHomeViewModel(HomeViewModel homeViewModel, IPInfo ipInfo)
     {
         homeViewModel.City = ipInfo.City;
         homeViewModel.Region = ipInfo.Region;
@@ -27,9 +27,11 @@ public class HomeController : Controller
         if (!string.IsNullOrWhiteSpace(homeViewModel.City)) 
         {
             homeViewModel.Clubs = await _clubRepository.GetByCity(homeViewModel.City);
-            return;
         }
-        homeViewModel.Clubs = new List<Club>();
+        else
+        {
+            homeViewModel.Clubs = new List<Club>();
+        }
     }
 
     public async Task<IActionResult> Index()
@@ -48,7 +50,7 @@ public class HomeController : Controller
             RegionInfo regionInfo = new RegionInfo(ipInfo.Country);
             ipInfo.Country = regionInfo.EnglishName;
 
-            MapHomeViewModel(homeViewModel, ipInfo);
+            await MapHomeViewModel(homeViewModel, ipInfo);
 
             return View(homeViewModel);
         }

@@ -42,8 +42,9 @@ public class ClubRepository : IClubRepository
     public async Task<IEnumerable<Club>> GetByCity(string city)
     {
         string filteredCity = city.Trim();
+
         var cityClubs = await _context.Clubs
-            .Where(club => club.Address.City != null && club.Address.City.Contains(city.Trim()))
+            .Where(club => club.Address.City != null && club.Address.City.Contains(filteredCity))
             .Include(club => club.Address)
             .ToListAsync();
         return cityClubs;

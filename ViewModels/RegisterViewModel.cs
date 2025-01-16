@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using RunGroupWebApp.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace RunGroupWebApp.ViewModels;
 
@@ -24,4 +25,7 @@ public class RegisterViewModel
     [Compare(nameof(Password), ErrorMessage = "Passwords do not match")]
     public string ConfirmPassword { get; set; }
 
+    [Display(Name = "Address")]
+    [Required(ErrorMessage = "Address is required")]
+    public Address Address { get; set; }
 }
